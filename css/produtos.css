@@ -75,6 +75,9 @@ main .informacoes .adicionar-ao-carrinho {
     cursor: pointer;
     margin-top: 0.5rem;
     transition: background-color 0.3s ease-in-out;
+
+    font-size: 1.2rem;
+    letter-spacing: 0.1rem;
 }
 
 main .informacoes .adicionar-ao-carrinho:hover {
