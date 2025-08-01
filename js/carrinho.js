@@ -44,7 +44,7 @@ botoesAdicionarAoCarrinho.forEach(botao => {
 
         const existeProduto = carrinho.find(produto => produto.id === produtoId);
 
-    
+
         //se existe produto, incrementar a quantidade 
         if (existeProduto) {
             existeProduto.quantidade += 1;
@@ -61,14 +61,14 @@ botoesAdicionarAoCarrinho.forEach(botao => {
             carrinho.push(produto);
 
         }
-
+        salvarProdutosNoCarrinho(carrinho);
         salvarProdutosNoCarrinho(carrinho);
         atualizarContadorCarrinho();
 
     });
 });
 
-function salvarProdutosNoCarrinho(carrinho){
+function salvarProdutosNoCarrinho(carrinho) {
     localStorage.setItem("carrinho", JSON.stringify(carrinho));
 }
 
@@ -80,10 +80,10 @@ function obterProdutosDoCarrinho() {
 // passo 4 - atualizar o contador do carrinho de compras 
 
 function atualizarContadorCarrinho() {
-    const carrinho = obterProdutosDoCarrinho();
+    const produtos = obterProdutosDoCarrinho();
     let total = 0;
 
-    carrinho.forEach(produto => {
+    produtos.forEach(produto => {
         total += produto.quantidade;
     });
 
@@ -92,3 +92,30 @@ function atualizarContadorCarrinho() {
 }
 
 atualizarContadorCarrinho();
+
+// passo 5 - renderizar a tabela do carrinho de compras
+
+function renderizarTabelaCarrinho() {
+  const produtos = obterProdutosDoCarrinho();
+  const corpoTabela = document.querySelector('#modal-1-content table tbody');
+  if (!corpoTabela) return;
+
+  corpoTabela.innerHTML = '';
+
+  produtos.forEach(item => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      
+      ${item.nome}
+      R$ ${item.preco.toFixed(2).replace('.', ',')}
+      
+      R$ ${(item.preco * item.quantidade).toFixed(2).replace('.', ',')}
+      Deletar
+    `;
+    corpoTabela.appendChild(tr);
+  });
+}
+
+//Lembre de chamar essa função logo após adicionar um item ao carrinho, senão a modal não atualiza os novos dados:
+salvarCarrinho(carrinho);
+renderizarTabelaCarrinho();
